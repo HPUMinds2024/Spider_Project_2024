@@ -17,7 +17,7 @@ const long elevated = 100; // I googled this and the web told me 100 is elevated
 //temporary values to be changed in later versions, currently included so that the structure of how the program
 //will be implemented can be established and the only changes will be the values of these variables
 
-int degreeOfFlux = 0; 
+const int degreeOfFlux = 20; 
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
 void setup() {
@@ -83,9 +83,9 @@ void setup() {
   //formula from the webside
 
   steadyValue = (abs(human_resistance));
-  degreeOfFlux = 20; // lets discuss and change these values next meeting, they're in here as placeholders for until then
-  highValue = steadyValue *1.5; // I only ballparked these numbers, lets fine tune
-  lowValue = steadyValue *0.5;
+  // lets discuss and change these values next meeting, they're in here as placeholders for until then
+  highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
+  lowValue = steadyValue - degreeOfFlux;
 
 
 
@@ -150,13 +150,13 @@ void loop() {
     */ 
     int control = 3;
 
-    if ((aver >= highValue) || (heartRate >= elevated)){
-      control = 0; // looks for indication of High Stress (I think, I'm not sure if GSR goes up or down when stressed)
+    if ((aver <= lowValue) || (heartRate >= elevated)){
+      control = 0; // looks for indication of High Stress 
 
-    }else if (aver <= lowValue){
-      control = 1; // looks for exceptionally low stress (I think, I'm not sure if GSR goes up or down when stressed)
+    }else if (aver >= highValue){
+      control = 1; // looks for exceptionally low stress 
 
-    } else if ((aver <= steadyValue+degreeOfFlux) && (aver >= steadyValue-degreeOfFlux)){
+    } else {
       control = 2; // looks for regular amount of stress
     } 
 
