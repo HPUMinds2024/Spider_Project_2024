@@ -11,9 +11,9 @@ int gsr_average=0;
 
 long highValue = 0; 
 long lowValue = 0;
-long steadyValue =0;
-long heartRate =0;
-const long elevated = 100; // I googled this and the web told me 100 is elevated
+long steadyValue = 0;
+long heartRate = 0;
+const long elevated = 100; // I googled this and the web told me 100 is elevated heartrate
 //temporary values to be changed in later versions, currently included so that the structure of how the program
 //will be implemented can be established and the only changes will be the values of these variables
 
@@ -30,11 +30,11 @@ void setup() {
 
   char response = 0; //creates a variable to read into and initializes it to the null character (ASCII 0)
 
-  pinMode(10, INPUT_PULLUP);
+  /*pinMode(10, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
   bool pushed = HIGH; // halts the code until a button connected to pin 10 is pressed in order to allow the heartrate monitor and GSR to be set up
   while(pushed != LOW){
     pushed = digitalRead(10);
-  } 
+  } */
 
   /*
     INSERT ANY CODE FOR SETTING UP HEART RATE MONITOR HERE
@@ -42,7 +42,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  Serial.print(ping); // sends the ping charater through the serial connection
+  //Serial.print(ping); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -54,7 +54,7 @@ void setup() {
   */
 
 
-  while (response != 6){ 
+  /*while (response != 6){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
     if(Serial.available()>0){
       //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
@@ -63,17 +63,15 @@ void setup() {
   }
 
   Serial.print(response); // sends back the response to acknowledge that communication is established
-
+*/
 
   // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
   long sum=0;
   for (int i = 0; i <500; i ++){
     sensorValue=analogRead(Yellow); //reads the sensor's value
-      //sensorValue -=510;
       
     sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
     delay(1);
-    
   }
   gsr_average = sum/500; //averages the sums of the values
 
@@ -98,20 +96,35 @@ void setup() {
 
 void loop() {
   
+  int hold_num = 0;
+  int tally = 0;
   long sum=0;
+
   for(int i=0;i<100;i++)           //Average the 100 measurements to remove the glitch
       {
       sensorValue=analogRead(Yellow); //reads the sensor's value
-      //sensorValue -=510;
       
       sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
+
+      if (hold_num == abs(sensorValue)){ // checks if the last value is equal to the current value being read in
+        tally++; // if they are the same, iterates a tally
+      }
+      else{
+        tally = 0; // if they are ever not the same back to back, zeroes out the tally
+      }
+      
+      if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
+      {
+        Serial.print(21);
+      }
+
+      hold_num = abs(sensorValue);
 
 
 
       /*
         INSERT HEARTRATE MONITOR CODE HERE
       */
-      
       
       
       delay(1);
@@ -148,7 +161,7 @@ void loop() {
       not do anything in response because it is not waiting to recieve the commands sent to it.
     
     */ 
-    int control = 3;
+    int control = -1;
 
     if ((aver <= lowValue) || (heartRate >= elevated)){
       control = 0; // looks for indication of High Stress 
@@ -162,16 +175,17 @@ void loop() {
 
     switch(control){
       case 0:
-        Serial.print(17); //Device control 1 character
+        Serial.print(17); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        Serial.print(18); //Device control 2 character
+        Serial.print(18); //Device control 2 character - sends low stress
 
         break;
       case 2:
-        Serial.print(19); //Device control 3 character
+        Serial.print(19); //Device control 3 character - sends normal stress
         break;
+
       default: 
         Serial.print(21); //negative acknowledge character
         // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
