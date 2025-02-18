@@ -27,6 +27,7 @@ const char regularStressChar = 19;
 const char deviceControlChar4 = 20;
 const char somethingWrong = 21;
 const char confirmation = 6;
+const char end = 0;
 
 void setup() {
   Serial.begin(9600); // begins serial communication in the com port its connected to
@@ -50,7 +51,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  Serial.print(ping); // sends the ping charater through the serial connection
+  sendMsg(ping); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -70,7 +71,7 @@ void setup() {
     }
   }
 
-  Serial.print(confirmation); // sends back the response to acknowledge that communication is established
+  sendMsg(confirmation); // sends back the response to acknowledge that communication is established
 
 
   // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
@@ -123,17 +124,14 @@ void loop() {
       
       if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
       {
-        Serial.print(somethingWrong);
+        sendMsg(somethingWrong);
       }
 
       hold_num = abs(sensorValue);
 
-
-
       /*
         INSERT HEARTRATE MONITOR CODE HERE
       */
-      
       
       delay(1);
       }
@@ -183,19 +181,19 @@ void loop() {
 
     switch(control){
       case 0:
-        Serial.print(highStressChar); //Device control 1 character - sends high stress
+        sendMsg(highStressChar); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        Serial.print(lowStressChar); //Device control 2 character - sends low stress
+        sendMsg(lowStressChar); //Device control 2 character - sends low stress
 
         break;
       case 2:
-        Serial.print(regularStressChar); //Device control 3 character - sends normal stress
+        sendMsg(regularStressChar); //Device control 3 character - sends normal stress
         break;
 
       default: 
-        Serial.print(somethingWrong); //negative acknowledge character
+        sendMsg(somethingWrong); //negative acknowledge character
         // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
         break;
     }
@@ -205,4 +203,9 @@ void loop() {
   }
   
 
+}
+
+void sendMsg(char msg){
+  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
+  Serial.print(end);
 }
