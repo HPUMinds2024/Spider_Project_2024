@@ -20,6 +20,14 @@ const long elevated = 100; // I googled this and the web told me 100 is elevated
 const int degreeOfFlux = 20; 
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
+//variables to define the characters that are going to be sent for controlling behavior
+const char highStressChar = 17;
+const char lowStressChar = 18;
+const char regularStressChar = 19;
+const char deviceControlChar4 = 20;
+const char somethingWrong = 21;
+const char confirmation = 6;
+
 void setup() {
   Serial.begin(9600); // begins serial communication in the com port its connected to
 
@@ -54,7 +62,7 @@ void setup() {
   */
 
 
-  while (response != 6){ 
+  while (response != confirmation){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
     if(Serial.available()>0){
       //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
@@ -62,7 +70,7 @@ void setup() {
     }
   }
 
-  Serial.print(response); // sends back the response to acknowledge that communication is established
+  Serial.print(confirmation); // sends back the response to acknowledge that communication is established
 
 
   // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
@@ -115,7 +123,7 @@ void loop() {
       
       if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
       {
-        Serial.print(21);
+        Serial.print(somethingWrong);
       }
 
       hold_num = abs(sensorValue);
@@ -175,19 +183,19 @@ void loop() {
 
     switch(control){
       case 0:
-        Serial.print(17); //Device control 1 character - sends high stress
+        Serial.print(highStressChar); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        Serial.print(18); //Device control 2 character - sends low stress
+        Serial.print(lowStressChar); //Device control 2 character - sends low stress
 
         break;
       case 2:
-        Serial.print(19); //Device control 3 character - sends normal stress
+        Serial.print(regularStressChar); //Device control 3 character - sends normal stress
         break;
 
       default: 
-        Serial.print(21); //negative acknowledge character
+        Serial.print(somethingWrong); //negative acknowledge character
         // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
         break;
     }
