@@ -30,11 +30,11 @@ void setup() {
 
   char response = 0; //creates a variable to read into and initializes it to the null character (ASCII 0)
 
-  /*pinMode(10, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
+  pinMode(10, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
   bool pushed = HIGH; // halts the code until a button connected to pin 10 is pressed in order to allow the heartrate monitor and GSR to be set up
   while(pushed != LOW){
     pushed = digitalRead(10);
-  } */
+  } 
 
   /*
     INSERT ANY CODE FOR SETTING UP HEART RATE MONITOR HERE
@@ -42,7 +42,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  //Serial.print(ping); // sends the ping charater through the serial connection
+  Serial.print(ping); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -54,7 +54,7 @@ void setup() {
   */
 
 
-  /*while (response != 6){ 
+  while (response != 6){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
     if(Serial.available()>0){
       //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
@@ -63,7 +63,7 @@ void setup() {
   }
 
   Serial.print(response); // sends back the response to acknowledge that communication is established
-*/
+
 
   // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
   long sum=0;
