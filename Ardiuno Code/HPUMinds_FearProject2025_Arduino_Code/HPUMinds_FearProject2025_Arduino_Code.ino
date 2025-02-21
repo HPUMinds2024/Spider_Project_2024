@@ -21,12 +21,12 @@ const int degreeOfFlux = 20;
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
 //variables to define the characters that are going to be sent for controlling behavior
-const char highStressChar = 17;
-const char lowStressChar = 18;
-const char regularStressChar = 19;
-const char deviceControlChar4 = 20;
-const char somethingWrong = 21;
-const char confirmation = 6;
+const char highStressChar = 'h';
+const char lowStressChar = 'l';
+const char regularStressChar = 'r';
+//const char deviceControlChar4 = 20;
+const char somethingWrong = 'p';
+const char confirmation = '2';
 const char end = 0;
 
 void setup() {
@@ -63,7 +63,7 @@ void setup() {
   */
 
 
-  while (response != '2'){ 
+  while (response != confirmation){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
     if(Serial.available()>0){
       //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
@@ -71,33 +71,10 @@ void setup() {
     }
   }
 
-  sendMsg('2'); // sends back the response to acknowledge that communication is established
+  sendMsg(confirmation); // sends back the response to acknowledge that communication is established
 
-
-  // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
-  long sum=0;
-  for (int i = 0; i <500; i ++){
-    sensorValue=analogRead(Yellow); //reads the sensor's value
-      
-    sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
-    delay(1);
-  }
-  gsr_average = sum/500; //averages the sums of the values
-
-  long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
-
-  long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
-  //formula from the webside
-
-  steadyValue = (abs(human_resistance));
-  // lets discuss and change these values next meeting, they're in here as placeholders for until then
-  highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
-  lowValue = steadyValue - degreeOfFlux;
-
-
-
-  gsr_average=0;
-  sensorValue=0;
+  takeBaseline();
+  
 }
 
   int iteration = 0; // global variables required for calculation and sending serial info
@@ -181,11 +158,11 @@ void loop() {
 
     switch(control){
       case 0:
-        sendMsg('h'); //Device control 1 character - sends high stress
+        sendMsg(highStressChar); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        sendMsg('l'); //Device control 2 character - sends low stress
+        sendMsg(lowStressChar); //Device control 2 character - sends low stress
 
         break;
       case 2:
@@ -208,4 +185,32 @@ void loop() {
 void sendMsg(char msg){
   Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
   Serial.print(end);
+}
+
+void takeBaseline(){
+  // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
+  long sum=0;
+  for (int i = 0; i <500; i ++){
+    sensorValue=analogRead(Yellow); //reads the sensor's value
+      
+    sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
+    delay(1);
+  }
+  gsr_average = sum/500; //averages the sums of the values
+
+  long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
+
+  long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
+  //formula from the webside
+
+  steadyValue = (abs(human_resistance));
+  // lets discuss and change these values next meeting, they're in here as placeholders for until then
+  highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
+  lowValue = steadyValue - degreeOfFlux;
+
+
+
+  gsr_average=0;
+  sensorValue=0;
+
 }
