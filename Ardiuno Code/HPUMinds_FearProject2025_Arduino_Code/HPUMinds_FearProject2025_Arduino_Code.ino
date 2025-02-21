@@ -51,7 +51,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  sendMsg(ping); // sends the ping charater through the serial connection
+  sendMsg('1'); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -63,7 +63,7 @@ void setup() {
   */
 
 
-  while (response != confirmation){ 
+  while (response != '2'){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
     if(Serial.available()>0){
       //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
@@ -71,7 +71,7 @@ void setup() {
     }
   }
 
-  sendMsg(confirmation); // sends back the response to acknowledge that communication is established
+  sendMsg('2'); // sends back the response to acknowledge that communication is established
 
 
   // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
@@ -124,7 +124,7 @@ void loop() {
       
       if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
       {
-        sendMsg(somethingWrong);
+        sendMsg('p');
       }
 
       hold_num = abs(sensorValue);
@@ -181,19 +181,19 @@ void loop() {
 
     switch(control){
       case 0:
-        sendMsg(highStressChar); //Device control 1 character - sends high stress
+        sendMsg('h'); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        sendMsg(lowStressChar); //Device control 2 character - sends low stress
+        sendMsg('l'); //Device control 2 character - sends low stress
 
         break;
       case 2:
-        sendMsg(regularStressChar); //Device control 3 character - sends normal stress
+        sendMsg('r'); //Device control 3 character - sends normal stress
         break;
 
       default: 
-        sendMsg(somethingWrong); //negative acknowledge character
+        sendMsg('p'); //negative acknowledge character
         // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
         break;
     }
