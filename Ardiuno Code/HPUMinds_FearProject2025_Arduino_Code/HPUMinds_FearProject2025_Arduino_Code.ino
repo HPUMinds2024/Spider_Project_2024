@@ -4,8 +4,11 @@
   Description: Testing and implementation program to have the hardware talk to HPU Minds Fear project
 
 */
-
+#include "Gsr_Fear.h"
 #define Yellow A0 //defines the pin for the yellow wire to be hooked up to
+
+const int degreeOfFlux = 20; 
+// variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
 long highValue = 0; 
 long lowValue = 0;
@@ -24,10 +27,12 @@ const char somethingWrong = 'p';
 const char confirmation = '2';
 const char end = 0;
 
+Gsr_Fear gsr;
+
 void setup() {
   Serial.begin(9600); // begins serial communication in the com port its connected to
 
-
+  gsr.begin(0);
 
   const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
   //It wont be changed, so it is set as a constant variable
@@ -46,7 +51,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  sendMsg('1'); // sends the ping charater through the serial connection
+   gsr.sendMsg('1'); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -66,10 +71,12 @@ void setup() {
     }
   }
 
-  sendMsg(confirmation); // sends back the response to acknowledge that communication is established
-
-  takeBaseline();
+  gsr.sendMsg(confirmation); // sends back the response to acknowledge that communication is established
   
+  steadyValue = gsr.takeBaseline();
+  
+  highValue = steadyValue + degreeOfFlux; 
+  lowValue = steadyValue - degreeOfFlux;  
 }
 
   int iteration = 0; // global variables required for calculation and sending serial info
@@ -77,7 +84,7 @@ void setup() {
 
 void loop() {
   
-  long gsr_average = takeGsrReading(); //take the gsr reading
+  long gsr_average =  gsr.takeGsrReading(); //take the gsr reading
 
   long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
 
@@ -120,19 +127,19 @@ void loop() {
 
     switch(control){
       case 0:
-        sendMsg(highStressChar); //Device control 1 character - sends high stress
+         gsr.sendMsg(highStressChar); //Device control 1 character - sends high stress
 
         break;
       case 1:
-        sendMsg(lowStressChar); //Device control 2 character - sends low stress
+         gsr.sendMsg(lowStressChar); //Device control 2 character - sends low stress
 
         break;
       case 2:
-        sendMsg('r'); //Device control 3 character - sends normal stress
+         gsr.sendMsg('r'); //Device control 3 character - sends normal stress
         break;
 
       default: 
-        sendMsg('p'); //negative acknowledge character
+         gsr.sendMsg('p'); //negative acknowledge character
         // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
         break;
     }
@@ -144,79 +151,3 @@ void loop() {
 
 }
 
-// a function to send single character messages to the UE project, it adds the null character at the end because the UE plugin required it
-void sendMsg(char msg){
-  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
-  Serial.print(end);
-}
-
-// a function to take the GSR baseline. There was talk of taking multible baselines trough the code, so I turned it into a function
-void takeBaseline(){
-  const int degreeOfFlux = 20; 
-  // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
-
-  long sum=0;
-
-  byte certainty = 5; 
-  // a variable to determine how many times to take a gsr reading before we are certain we have a representative baseline
-  // currently set to 5
-
-  for (int i = 0; i <certainty; i ++){
-    sum += takeGsrReading();
-  }
-
-  long gsr_average = sum / certainty;
-
-  long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
-
-  long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
-  //formula from 
-
-  steadyValue = human_resistance;
-
-  highValue = steadyValue + degreeOfFlux; 
-  lowValue = steadyValue - degreeOfFlux;
-
-  /*
-    ***INSERT Heart Rate Monitor Code Here***
-  */
-
-}
-
-//function to take 100 readings and average them together as one average reading, then returns that average
-//if 90 consecutive readings are the same, it decides there's an issue and sends that through serial
-long takeGsrReading(){
-  int hold_num = 0;
-  byte tally = 0;
-  long sum=0;
-
-  for(int i=0;i<100;i++) {          //Average the 100 measurements to remove the glitch
-  
-    long sensorValue=analogRead(Yellow); //reads the sensor's value
-    
-    sensorValue = abs(sensorValue); //makes sure that negative readings do not mess with measurement
-    
-    sum += sensorValue; 
-
-    if (hold_num == sensorValue){ // checks if the last value is equal to the current value being read in
-      tally++; // if they are the same, iterates a tally
-    }
-    else{
-      tally = 0; // if they are ever not the same back to back, zeroes out the tally
-    }
-    
-    if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
-    {
-      sendMsg('p');
-    }
-
-    hold_num = sensorValue;
-
-    /*
-      INSERT HEARTRATE MONITOR CODE HERE
-    */
-    
-    delay(1);
-  }
-  return sum/100;
-}
