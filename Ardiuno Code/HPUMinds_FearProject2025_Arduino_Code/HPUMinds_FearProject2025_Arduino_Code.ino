@@ -6,8 +6,6 @@
 */
 
 #define Yellow A0 //defines the pin for the yellow wire to be hooked up to
-int sensorValue=0;
-int gsr_average=0;
 
 long highValue = 0; 
 long lowValue = 0;
@@ -16,9 +14,6 @@ long heartRate = 0;
 const long elevated = 100; // I googled this and the web told me 100 is elevated heartrate
 //temporary values to be changed in later versions, currently included so that the structure of how the program
 //will be implemented can be established and the only changes will be the values of these variables
-
-const int degreeOfFlux = 20; 
-// variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
 //variables to define the characters that are going to be sent for controlling behavior
 const char highStressChar = 'h';
@@ -82,39 +77,9 @@ void setup() {
 
 void loop() {
   
-  int hold_num = 0;
-  int tally = 0;
-  long sum=0;
+  long gsr_average = takeGsrReading(); //take the gsr reading
 
-  for(int i=0;i<100;i++)           //Average the 100 measurements to remove the glitch
-      {
-      sensorValue=analogRead(Yellow); //reads the sensor's value
-      
-      sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
-
-      if (hold_num == abs(sensorValue)){ // checks if the last value is equal to the current value being read in
-        tally++; // if they are the same, iterates a tally
-      }
-      else{
-        tally = 0; // if they are ever not the same back to back, zeroes out the tally
-      }
-      
-      if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
-      {
-        sendMsg('p');
-      }
-
-      hold_num = abs(sensorValue);
-
-      /*
-        INSERT HEARTRATE MONITOR CODE HERE
-      */
-      
-      delay(1);
-      }
-   gsr_average = sum/100; //averages the sums of the values
-
-   long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
+  long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
 
   long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
   //formula from the webside
@@ -122,9 +87,6 @@ void loop() {
   long reading = (abs(human_resistance)); 
   //removes the fluctuation of positive/negative readings
   //the sensor would output both positive and negative values with the same amplitude
-  
-
- 
   
 
   //this block averages every 10 readings and sends the report of either elevated, dropped, or steady readings.
@@ -182,35 +144,79 @@ void loop() {
 
 }
 
+// a function to send single character messages to the UE project, it adds the null character at the end because the UE plugin required it
 void sendMsg(char msg){
   Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
   Serial.print(end);
 }
 
+// a function to take the GSR baseline. There was talk of taking multible baselines trough the code, so I turned it into a function
 void takeBaseline(){
-  // rough Idea of a baseline gathering code, feel free to change/improve on it, also lacking implementation for heart rate monitor
+  const int degreeOfFlux = 20; 
+  // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
+
   long sum=0;
-  for (int i = 0; i <500; i ++){
-    sensorValue=analogRead(Yellow); //reads the sensor's value
-      
-    sum += abs(sensorValue); //makes sure that negative readings do not mess with measurement
-    delay(1);
+
+  byte certainty = 5; 
+  // a variable to determine how many times to take a gsr reading before we are certain we have a representative baseline
+  // currently set to 5
+
+  for (int i = 0; i <certainty; i ++){
+    sum += takeGsrReading();
   }
-  gsr_average = sum/500; //averages the sums of the values
+
+  long gsr_average = sum / certainty;
 
   long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
 
   long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
-  //formula from the webside
+  //formula from 
 
-  steadyValue = (abs(human_resistance));
-  // lets discuss and change these values next meeting, they're in here as placeholders for until then
-  highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
+  steadyValue = human_resistance;
+
+  highValue = steadyValue + degreeOfFlux; 
   lowValue = steadyValue - degreeOfFlux;
 
+  /*
+    ***INSERT Heart Rate Monitor Code Here***
+  */
 
+}
 
-  gsr_average=0;
-  sensorValue=0;
+//function to take 100 readings and average them together as one average reading, then returns that average
+//if 90 consecutive readings are the same, it decides there's an issue and sends that through serial
+long takeGsrReading(){
+  int hold_num = 0;
+  byte tally = 0;
+  long sum=0;
 
+  for(int i=0;i<100;i++) {          //Average the 100 measurements to remove the glitch
+  
+    long sensorValue=analogRead(Yellow); //reads the sensor's value
+    
+    sensorValue = abs(sensorValue); //makes sure that negative readings do not mess with measurement
+    
+    sum += sensorValue; 
+
+    if (hold_num == sensorValue){ // checks if the last value is equal to the current value being read in
+      tally++; // if they are the same, iterates a tally
+    }
+    else{
+      tally = 0; // if they are ever not the same back to back, zeroes out the tally
+    }
+    
+    if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
+    {
+      sendMsg('p');
+    }
+
+    hold_num = sensorValue;
+
+    /*
+      INSERT HEARTRATE MONITOR CODE HERE
+    */
+    
+    delay(1);
+  }
+  return sum/100;
 }
