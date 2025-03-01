@@ -1,12 +1,12 @@
 /*
-  Gsr_Fear.h - Library for GSR reading and interpretation in regards to fear.
+  Gsr_Stress.h - Library for GSR reading and interpretation in regards to fear/stress.
   Created by Jacob Larson Brittain, February 26, 2025.
 */
 
 #include "Arduino.h"
-#include "Gsr_Fear.h"
+#include "Gsr_Stress.h"
 
-void Gsr_Fear::begin(int pin)
+void Gsr_Stress::begin(int pin)
 {
   switch(pin){
     case 0:
@@ -31,14 +31,14 @@ void Gsr_Fear::begin(int pin)
 }
 
 // a function to send single character messages to the UE project, it adds the null character at the end because the UE plugin required it
-void Gsr_Fear::sendMsg(char msg){
+void Gsr_Stress::sendMsg(char msg){
   char end = 0;
   Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
   Serial.print(end);
 }
 
 // a function to take the GSR baseline. There was talk of taking multible baselines trough the code, so I turned it into a function
-long Gsr_Fear::takeBaseline(){
+long Gsr_Stress::takeBaseline(){
   
   long sum=0;
 
@@ -69,7 +69,7 @@ long Gsr_Fear::takeBaseline(){
 
 //function to take 100 readings and average them together as one average reading, then returns that average
 //if 90 consecutive readings are the same, it decides there's an issue and sends that through serial
-long Gsr_Fear::takeGsrReading(){
+long Gsr_Stress::takeGsrReading(){
   int hold_num = 0;
   byte tally = 0;
   long sum=0;

@@ -2,10 +2,9 @@
   Author: HPU MInds, Jacob Brittain
   Date: 01/22/2025
   Description: Testing and implementation program to have the hardware talk to HPU Minds Fear project
-
 */
-#include "Gsr_Fear.h"
-#define Yellow A0 //defines the pin for the yellow wire to be hooked up to
+#include "Gsr_Stress.h"
+#define Yellow 0 //defines the pin for the yellow wire to be hooked up to
 
 const int degreeOfFlux = 20; 
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
@@ -27,12 +26,12 @@ const char somethingWrong = 'p';
 const char confirmation = '2';
 const char end = 0;
 
-Gsr_Fear gsr;
+Gsr_Stress gsr;
 
 void setup() {
   Serial.begin(9600); // begins serial communication in the com port its connected to
 
-  gsr.begin(0);
+  gsr.begin(Yellow);
 
   const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
   //It wont be changed, so it is set as a constant variable
@@ -51,7 +50,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-   gsr.sendMsg('1'); // sends the ping charater through the serial connection
+  gsr.sendMsg('1'); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -79,8 +78,8 @@ void setup() {
   lowValue = steadyValue - degreeOfFlux;  
 }
 
-  int iteration = 0; // global variables required for calculation and sending serial info
-  long aver = 0;
+int iteration = 0; // global variables required for calculation and sending serial info
+long aver = 0;
 
 void loop() {
   
@@ -128,26 +127,19 @@ void loop() {
     switch(control){
       case 0:
          gsr.sendMsg(highStressChar); //Device control 1 character - sends high stress
-
         break;
       case 1:
          gsr.sendMsg(lowStressChar); //Device control 2 character - sends low stress
-
         break;
       case 2:
          gsr.sendMsg('r'); //Device control 3 character - sends normal stress
         break;
-
       default: 
          gsr.sendMsg('p'); //negative acknowledge character
-        // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
-        break;
+        break; // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
     }
-
     aver = 0; //resets variables for next few cycles
     heartRate = 0;
   }
-  
-
 }
 
