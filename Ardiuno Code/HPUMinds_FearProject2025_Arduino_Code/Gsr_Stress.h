@@ -13,6 +13,9 @@ class Gsr_Stress
   public:
     void begin(int pin);
     void sendMsg(char msg);
+    void sendMsg(String msg);
+    void sendMsg(long msg);
+    void sendMsg(int msg);
     long takeBaseline();
     long takeGsrReading();
   private:

@@ -37,6 +37,24 @@ void Gsr_Stress::sendMsg(char msg){
   Serial.print(end);
 }
 
+void sendMsg(String msg){
+  char end = 0;
+  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
+  Serial.print(end);
+}
+void sendMsg(long msg){
+  char end = 0;
+  Serial.print("long ");
+  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
+  Serial.print(end);
+}
+void sendMsg(int msg){
+  char end = 0;
+  Serial.print("int ");
+  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
+  Serial.print(end);
+}
+
 // a function to take the GSR baseline. There was talk of taking multible baselines trough the code, so I turned it into a function
 long Gsr_Stress::takeBaseline(){
   
