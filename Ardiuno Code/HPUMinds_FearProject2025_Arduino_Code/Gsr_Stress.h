@@ -1,23 +1,22 @@
-/*
-  Gsr_Fear.h - Library for GSR reading and interpretation in regards to fear/stress.
-  Created by Jacob Larson Brittain, February 26, 2025.
-  
-*/
+/*----------------------------------------------------------------------
+| File Name: Gsr_Stress.h
+| Programmer: Jacob Larson Brittain
+| Date: February 26, 2025
+| Description:Library for GSR reading and interpretation in regards to 
+| fear/stress.
+| extra files: 
+----------------------------------------------------------------------*/
 #ifndef GSRSTRESS_H
 #define GSRSTRESS_H
 
 #include <Arduino.h>
 
-class Gsr_Stress
-{
+class Gsr_Stress {
+
   public:
     void begin(int pin);
       //Postcondition: sets up the GSR sensor on the Analog pin that was specified (0-5, which corresponds with A0-A5)
 
-    void sendMsg(char msg);
-    void sendMsg(String msg);
-    void sendMsg(long msg);
-    void sendMsg(int msg);
       //Postcondition: sends the message passed to the function, followed by character 0. 
       //  If not a string or char, it sends 2 messages, one with the data type and null, then another with the data and null
       //the function has been overloaded in order to take more datatypes in order to make it more versatile for different
