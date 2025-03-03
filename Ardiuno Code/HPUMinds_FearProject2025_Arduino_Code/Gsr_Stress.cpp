@@ -1,7 +1,11 @@
-/*
-  Gsr_Stress.h - Library for GSR reading and interpretation in regards to fear/stress.
-  Created by Jacob Larson Brittain, February 26, 2025.
-*/
+/*----------------------------------------------------------------------
+| File Name: Gsr_Stress.cpp
+| Programmer: Jacob Larson Brittain
+| Date: February 26, 2025
+| Description:Library for GSR reading and interpretation in regards to 
+| fear/stress.
+| extra files: Gsr_Stress.h
+----------------------------------------------------------------------*/
 
 #include "Arduino.h"
 #include "Gsr_Stress.h"
@@ -30,32 +34,7 @@ void Gsr_Stress::begin(int pin)
   }
 }
 
-// a function to send single character messages to the UE project, it adds the null character at the end because the UE plugin required it
-void Gsr_Stress::sendMsg(char msg){
-  char end = 0;
-  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
-  Serial.print(end);
-}
 
-void sendMsg(String msg){
-  char end = 0;
-  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
-  Serial.print(end);
-}
-void sendMsg(long msg){
-  char end = 0;
-  Serial.print("long");
-  Serial.print(end);
-  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
-  Serial.print(end);
-}
-void sendMsg(int msg){
-  char end = 0;
-  Serial.print("int");
-  Serial.print(end);
-  Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
-  Serial.print(end);
-}
 
 // a function to take the GSR baseline. There was talk of taking multible baselines trough the code, so I turned it into a function
 long Gsr_Stress::takeBaseline(){
@@ -68,6 +47,9 @@ long Gsr_Stress::takeBaseline(){
 
   for (int i = 0; i <certainty; i ++){
     sum += takeGsrReading();
+    if (takeGsrReading() == -1){
+      return -1;
+    }
   }
 
   long gsr_average = sum / certainty;
@@ -111,7 +93,7 @@ long Gsr_Stress::takeGsrReading(){
     
     if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
     {
-      sendMsg('p');
+      return -1;
     }
 
     hold_num = sensorValue;

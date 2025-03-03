@@ -1,9 +1,14 @@
-/*
-  Author: HPU MInds, Jacob Brittain
-  Date: 01/22/2025
-  Description: Testing and implementation program to have the hardware talk to HPU Minds Fear project
-*/
+/*----------------------------------------------------------------------
+| File Name: HPUMinds_FearProject2025_Arduino_Code.ino
+| Programmer: HPU MInds, Jacob Larson Brittain
+| Date: 01/22/2025
+| Description:Testing and implementation program to have the hardware 
+| talk to HPU Minds Fear project
+| extra files: Gsr_Stress.h
+----------------------------------------------------------------------*/
+
 #include "Gsr_Stress.h"
+#include "UESerial.h"
 #define Yellow 0 //defines the pin for the yellow wire to be hooked up to
 
 const int degreeOfFlux = 20; 
@@ -27,9 +32,10 @@ const char confirmation = '2';
 const char end = 0;
 
 Gsr_Stress gsr;
+UESerial ue;
 
 void setup() {
-  Serial.begin(9600); // begins serial communication in the com port its connected to
+  ue.begin(); // begins serial communication in the com port its connected to
 
   gsr.begin(Yellow);
 
@@ -51,7 +57,7 @@ void setup() {
   
   while(!Serial){} //holds code until the serial port is connected
 
-  gsr.sendMsg('1'); // sends the ping charater through the serial connection
+  ue.sendMsg('1'); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
@@ -65,15 +71,15 @@ void setup() {
 
   while (response != confirmation){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
-    if(Serial.available()>0){
-      //makes sure that there is a character in the serial buffer to read in and its not reading in random junk signals
-      response = Serial.read();//reads the next character in the serial buffer and stores it in Response
-    }
+    response = ue.readInt();
   }
 
-  gsr.sendMsg(confirmation); // sends back the response to acknowledge that communication is established
+  ue.sendMsg(confirmation); // sends back the response to acknowledge that communication is established
   
   steadyValue = gsr.takeBaseline();
+  if (steadyValue == -1){
+    ue.sendMsg(somethingWrong);
+  }
   
   highValue = steadyValue + degreeOfFlux; 
   lowValue = steadyValue - degreeOfFlux;  
@@ -85,7 +91,9 @@ long aver = 0;
 void loop() {
   
   long reading =  gsr.takeGsrReading(); //take the gsr reading
-
+  if (reading == -1){
+    ue.sendMsg(somethingWrong);
+  }
   //this block averages every 10 readings and sends the report of either elevated, dropped, or steady readings.
   //sends through the serial port using 3 of the 4 device control ASCII characters as well as Negative Acknowledge (in case of issue/unexpected behavior)
   iteration ++; 
@@ -119,16 +127,16 @@ void loop() {
 
     switch(control){
       case 0:
-         gsr.sendMsg(highStressChar); //Device control 1 character - sends high stress
+         ue.sendMsg(highStressChar); //Device control 1 character - sends high stress
         break;
       case 1:
-         gsr.sendMsg(lowStressChar); //Device control 2 character - sends low stress
+         ue.sendMsg(lowStressChar); //Device control 2 character - sends low stress
         break;
       case 2:
-         gsr.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
+         ue.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
         break;
       default: 
-         gsr.sendMsg(somethingWrong); //negative acknowledge character
+         ue.sendMsg(somethingWrong); //negative acknowledge character
         break; // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
     }
     aver = 0; //resets variables for next few cycles
