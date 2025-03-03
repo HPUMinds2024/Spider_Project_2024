@@ -33,15 +33,16 @@ void setup() {
 
   gsr.begin(Yellow);
 
-  const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
-  //It wont be changed, so it is set as a constant variable
+    //const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
+    //It wont be changed, so it is set as a constant variable
 
   char response = 0; //creates a variable to read into and initializes it to the null character (ASCII 0)
 
-  pinMode(10, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
+  int buttonPin = 10;
+  pinMode(buttonPin, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
   bool pushed = HIGH; // halts the code until a button connected to pin 10 is pressed in order to allow the heartrate monitor and GSR to be set up
   while(pushed != LOW){
-    pushed = digitalRead(10);
+    pushed = digitalRead(buttonPin);
   } 
 
   /*
@@ -83,17 +84,7 @@ long aver = 0;
 
 void loop() {
   
-  long gsr_average =  gsr.takeGsrReading(); //take the gsr reading
-
-  long Serial_calibration=510; //510 was the baseline reading of the sensor with nothing hooked up 
-
-  long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
-  //formula from the webside
-
-  long reading = (abs(human_resistance)); 
-  //removes the fluctuation of positive/negative readings
-  //the sensor would output both positive and negative values with the same amplitude
-  
+  long reading =  gsr.takeGsrReading(); //take the gsr reading
 
   //this block averages every 10 readings and sends the report of either elevated, dropped, or steady readings.
   //sends through the serial port using 3 of the 4 device control ASCII characters as well as Negative Acknowledge (in case of issue/unexpected behavior)
@@ -120,9 +111,11 @@ void loop() {
     }else if (aver >= highValue){
       control = 1; // looks for exceptionally low stress 
 
-    } else {
+    } else if ((aver > lowValue) && (aver < highValue) && (heartRate < elevated)){
       control = 2; // looks for regular amount of stress
-    } 
+    } else {
+      control = -1;
+    }
 
     switch(control){
       case 0:
@@ -132,10 +125,10 @@ void loop() {
          gsr.sendMsg(lowStressChar); //Device control 2 character - sends low stress
         break;
       case 2:
-         gsr.sendMsg('r'); //Device control 3 character - sends normal stress
+         gsr.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
         break;
       default: 
-         gsr.sendMsg('p'); //negative acknowledge character
+         gsr.sendMsg(somethingWrong); //negative acknowledge character
         break; // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
     }
     aver = 0; //resets variables for next few cycles

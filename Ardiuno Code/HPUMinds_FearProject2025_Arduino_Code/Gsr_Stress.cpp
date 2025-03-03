@@ -44,13 +44,15 @@ void sendMsg(String msg){
 }
 void sendMsg(long msg){
   char end = 0;
-  Serial.print("long ");
+  Serial.print("long");
+  Serial.print(end);
   Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
   Serial.print(end);
 }
 void sendMsg(int msg){
   char end = 0;
-  Serial.print("int ");
+  Serial.print("int");
+  Serial.print(end);
   Serial.print(msg); // small function to force any print statements into the specific syntax the UE plugin requires to read strings;
   Serial.print(end);
 }
