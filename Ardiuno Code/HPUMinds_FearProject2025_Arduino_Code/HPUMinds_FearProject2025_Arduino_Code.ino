@@ -7,8 +7,9 @@
 | extra files: Gsr_Stress.h
 ----------------------------------------------------------------------*/
 
-#include "Gsr_Stress.h"
-#include "UESerial.h"
+#include <UESerial.h>
+#include <Gsr_Stress.h>
+
 #define Yellow 0 //defines the pin for the yellow wire to be hooked up to
 
 const int degreeOfFlux = 20; 
