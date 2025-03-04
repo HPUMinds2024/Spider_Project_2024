@@ -28,7 +28,7 @@ const char lowStressChar = 'l';
 const char regularStressChar = 'r';
 //const char deviceControlChar4 = 20;
 const char somethingWrong = 'p';
-const char confirmation = '2';
+
 const char end = 0;
 
 Gsr_Stress gsr;
@@ -37,12 +37,8 @@ UESerial ue;
 void setup() {
   ue.begin(); // begins serial communication in the com port its connected to
 
-  gsr.begin(Yellow);
-
-    //const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
-    //It wont be changed, so it is set as a constant variable
-
-  char response = 0; //creates a variable to read into and initializes it to the null character (ASCII 0)
+  gsr.begin(Yellow); // sets up the gsr sensor to be on the analog pin specified by the number Yellow
+  // since Yellow = 0, it is setting up the gsr sensor on pin A0. 
 
   int buttonPin = 10;
   pinMode(buttonPin, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
@@ -55,26 +51,18 @@ void setup() {
     INSERT ANY CODE FOR SETTING UP HEART RATE MONITOR HERE
   */
   
-  while(!Serial){} //holds code until the serial port is connected
-
-  ue.sendMsg('1'); // sends the ping charater through the serial connection
 
   /*
     IMPORTANT
 
     In order for the code to do anything, there needs to be code on the program that this is talking to to both
-    wait for character 5, and then respond with character 6, and then wait for character 6 to be sent back in
-    order to verify a connection has been established BEFORE it trys to read in any input or data from the Serial
-    port or else it will throw a bunch of errors and read in a lot of junk information
+    wait for '?', and then respond with 'y', and then wait for 'y' to be sent back, in  order to verify
+    a connection has been established BEFORE it trys to read in any input or data from the Serial port or
+    else it will throw a bunch of errors and read in a lot of junk information
   */
 
 
-  while (response != confirmation){ 
-    //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
-    response = ue.readInt();
-  }
-
-  ue.sendMsg(confirmation); // sends back the response to acknowledge that communication is established
+  
   
   steadyValue = gsr.takeBaseline();
   if (steadyValue == -1){
