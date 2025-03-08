@@ -78,6 +78,12 @@ int iteration = 0; // global variables required for calculation and sending seri
 long aver = 0;
 
 void loop() {
+
+  if(Serial.available() != 0) {
+    if(ue.readChar() == 'B') {
+      steadyValue = gsr.takeBaseline();
+    }
+  }
   
   long reading =  gsr.takeGsrReading(); //take the gsr reading
   if (reading == -1){
