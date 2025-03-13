@@ -38,8 +38,7 @@ UESerial ue;
 void setup() {
   ue.begin(); // begins serial communication in the com port its connected to
 
-  gsr.begin(Yellow); // sets up the gsr sensor to be on the analog pin specified by the number Yellow
-  // since Yellow = 0, it is setting up the gsr sensor on pin A0. 
+  
 
   int buttonPin = 10;
   pinMode(buttonPin, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
@@ -47,6 +46,9 @@ void setup() {
   while(pushed != LOW){
     pushed = digitalRead(buttonPin);
   } 
+
+  gsr.begin(Yellow); // sets up the gsr sensor to be on the analog pin specified by the number Yellow
+  // since Yellow = 0, it is setting up the gsr sensor on pin A0. 
 
   /*
     INSERT ANY CODE FOR SETTING UP HEART RATE MONITOR HERE
