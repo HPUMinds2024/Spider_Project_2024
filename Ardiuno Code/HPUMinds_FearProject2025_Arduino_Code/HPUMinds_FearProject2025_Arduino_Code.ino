@@ -12,7 +12,7 @@
 
 #define Yellow 0 //defines the pin for the yellow wire to be hooked up to
 
-const int degreeOfFlux = 20; 
+const int degreeOfFlux = 50; 
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
 
 long highValue = 0; 
@@ -73,7 +73,7 @@ void setup() {
   }
   
   highValue = steadyValue + degreeOfFlux; 
-  lowValue = steadyValue - degreeOfFlux;  
+  lowValue = steadyValue - 3 * degreeOfFlux;  
 }
 
 int iteration = 0; // global variables required for calculation and sending serial info
@@ -98,7 +98,7 @@ void loop() {
   if (iteration == 10){
     iteration = 0;
     aver = aver/10;
-    heartRate = heartRate/10;
+    //heartRate = heartRate/10;
 
     /*
       IMPORTANT
@@ -108,15 +108,16 @@ void loop() {
       not do anything in response because it is not waiting to recieve the commands sent to it.
     
     */ 
+    //ue.sendMsg(aver);
     int control = -1;
-
-    if ((aver <= lowValue) || (heartRate >= elevated)){
+      //(heartRate >= elevated)
+    if ((aver <= lowValue)){
       control = 0; // looks for indication of High Stress 
 
     }else if (aver >= highValue){
       control = 1; // looks for exceptionally low stress 
 
-    } else if ((aver > lowValue) && (aver < highValue) && (heartRate < elevated)){
+    } else if ((aver > lowValue)){
       control = 2; // looks for regular amount of stress
     } else {
       control = -1;
