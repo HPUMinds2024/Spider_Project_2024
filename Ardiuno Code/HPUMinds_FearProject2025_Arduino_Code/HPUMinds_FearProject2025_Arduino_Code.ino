@@ -32,8 +32,6 @@ const char end = 0;
 void setup() {
   Serial.begin(9600); // begins serial communication in the com port its connected to
 
-
-
   const char ping = 5;//ping character is ASCII 5 which is the Enquiry character
   //It wont be changed, so it is set as a constant variable
 
@@ -61,7 +59,6 @@ void setup() {
     order to verify a connection has been established BEFORE it trys to read in any input or data from the Serial
     port or else it will throw a bunch of errors and read in a lot of junk information
   */
-
 
   while (response != '2'){ 
     //holds the code in a loop until the ASCII Acknowledge character(character 6) is read in
@@ -94,14 +91,12 @@ void setup() {
   highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
   lowValue = steadyValue - 1.5*degreeOfFlux;
 
-
-
   gsr_average=0;
   sensorValue=0;
 }
 
-  int iteration = 0; // global variables required for calculation and sending serial info
-  long aver = 0;
+int iteration = 0; // global variables required for calculation and sending serial info
+long aver = 0;
 
 void loop() {
   
