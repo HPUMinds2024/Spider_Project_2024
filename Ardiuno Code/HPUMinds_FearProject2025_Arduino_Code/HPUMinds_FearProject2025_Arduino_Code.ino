@@ -92,7 +92,7 @@ void setup() {
   steadyValue = (abs(human_resistance));
   // lets discuss and change these values next meeting, they're in here as placeholders for until then
   highValue = steadyValue + degreeOfFlux; // I only ballparked these numbers, lets fine tune
-  lowValue = steadyValue - degreeOfFlux;
+  lowValue = steadyValue - 1.5*degreeOfFlux;
 
 
 
