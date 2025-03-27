@@ -47,26 +47,19 @@ long Gsr_Stress::takeBaseline(){
 
   for (int i = 0; i <certainty; i ++){
     sum += takeGsrReading();
-    //if (takeGsrReading() == -1){
-    //  return -1;
-    //}
+    if (takeGsrReading() == -1){
+      return -1;
+    }
   }
 
-  long gsr_average = sum / certainty;
+  long gsr_average = (sum / certainty);
 
-   //510 was the baseline reading of the sensor with nothing hooked up 
+  //510 was the baseline reading of the sensor with nothing hooked up 
 
- // long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
+  // long human_resistance = (((1024 + 2 * gsr_average) * 10000)/(Serial_calibration - gsr_average));
   //formula from 
 
-
   return gsr_average;
-
-  
-  /*
-    ***INSERT Heart Rate Monitor Code Here***
-  */
-
 }
 
 //function to take 100 readings and average them together as one average reading, then returns that average
@@ -84,7 +77,7 @@ long Gsr_Stress::takeGsrReading(){
     
     sum += sensorValue; 
 
-    /*
+    
     if (hold_num == sensorValue){ // checks if the last value is equal to the current value being read in
       tally++; // if they are the same, iterates a tally
     }
@@ -95,7 +88,7 @@ long Gsr_Stress::takeGsrReading(){
     if (tally == 90) //if the same number is ever sent 90 times in a row, sends a negative response because something is broken
     {
       return -1;
-    } */
+    } 
 
     hold_num = sensorValue;
 
@@ -112,5 +105,5 @@ long Gsr_Stress::takeGsrReading(){
 
 
   long human_resistance = (((1024 + 2 * (sum/100))) * 10000)/(Serial_calibration - (sum/100));
-  return human_resistance;
+  return abs(human_resistance);
 }

@@ -19,7 +19,7 @@ long highValue = 0;
 long lowValue = 0;
 long steadyValue = 0;
 long heartRate = 0;
-const long elevated = 100; // I googled this and the web told me 100 is elevated heartrate
+//const long elevated = 100; // I googled this and the web told me 100 is elevated heartrate
 //temporary values to be changed in later versions, currently included so that the structure of how the program
 //will be implemented can be established and the only changes will be the values of these variables
 
@@ -38,8 +38,6 @@ UESerial ue;
 void setup() {
   ue.begin(); // begins serial communication in the com port its connected to
 
-  
-
   int buttonPin = 10;
   pinMode(buttonPin, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
   bool pushed = HIGH; // halts the code until a button connected to pin 10 is pressed in order to allow the heartrate monitor and GSR to be set up
@@ -53,7 +51,6 @@ void setup() {
   /*
     INSERT ANY CODE FOR SETTING UP HEART RATE MONITOR HERE
   */
-  
 
   /*
     IMPORTANT
@@ -63,9 +60,6 @@ void setup() {
     a connection has been established BEFORE it trys to read in any input or data from the Serial port or
     else it will throw a bunch of errors and read in a lot of junk information
   */
-
-
-  
   
   steadyValue = gsr.takeBaseline();
   if (steadyValue == -1){
@@ -73,7 +67,7 @@ void setup() {
   }
   
   highValue = steadyValue + degreeOfFlux; 
-  lowValue = steadyValue - 3 * degreeOfFlux;  
+  lowValue = steadyValue - 1.5 * degreeOfFlux;  
 }
 
 int iteration = 0; // global variables required for calculation and sending serial info
