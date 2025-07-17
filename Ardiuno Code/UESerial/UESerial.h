@@ -22,6 +22,7 @@ class UESerial {
       void sendMsg(String msg);
       void sendMsg(long msg);
       void sendMsg(int msg);
+      void sendMsg(float msg); // **SPECIAL CASE**  SEE IMPLEMENTATION FILE FOR DETAILS
         // a group of overloaded message sending member functions
         // it will send chars and strings by just sending the message then bookending it with character 0 (null)
         // it sends longs and ints by first sending the datatype as a sting, character 0, then the actual data, then character 0
