@@ -62,21 +62,6 @@ void UESerial::sendMsg(int msg) {
   Serial.print(end);
 }
 
-// **SPECIAL CASE**
-void sendMsg(float msg){ 
-  char end = 0;
-  Serial.print("float");
-  Serial.print(end);
-  long trunc = msg;
-  Serial.print(trunc);
-  Serial.print(end);
-  long dec = (msg - trunc)*100000;
-  Serial.print(dec);
-  Serial.print(end);
-} // When sending a message, it will send first the word "float" then the number as 2 different whole numbers with a null character between them
-  // it sends the whole component first, a null, then the decimal component as a number with upto 5 digits
-  // However one implements it, keep in mind the second component is 100000 times larger than it should be
-
 int UESerial::readInt() {
   int read;
 
