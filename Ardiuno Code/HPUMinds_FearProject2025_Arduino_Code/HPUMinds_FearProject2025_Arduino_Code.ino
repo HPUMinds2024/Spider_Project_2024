@@ -24,13 +24,16 @@ long heartRate = 0;
 //will be implemented can be established and the only changes will be the values of these variables
 
 //variables to define the characters that are going to be sent for controlling behavior
-const char highStressChar = 'h';
-const char lowStressChar = 'l';
+const char highStressChar = '+';
+const char lowStressChar = '-';
 const char regularStressChar = 'r';
 //const char deviceControlChar4 = 20;
 const char somethingWrong = 'p';
 
 const char end = 0;
+
+int stressLevelArray[10];
+int arrayIndex = 0;
 
 Gsr_Stress gsr;
 UESerial ue;
@@ -97,7 +100,7 @@ void loop() {
     /*
       IMPORTANT
 
-      The program MUST be waiting to recieve the Device control characters in order to modify behavior/output in
+      The program MUST be waiting to recieve the characters in order to modify behavior/output in
       some way or else this will not do anything. It will output the characters, but the recieving program will
       not do anything in response because it is not waiting to recieve the commands sent to it.
     
@@ -119,20 +122,41 @@ void loop() {
 
     switch(control){
       case 0:
-         ue.sendMsg(highStressChar); //Device control 1 character - sends high stress
+        sressLevelArray[arrayIndex] = 1;
+         //ue.sendMsg(highStressChar); //Device control 1 character - sends high stress
         break;
       case 1:
-         ue.sendMsg(lowStressChar); //Device control 2 character - sends low stress
+        sressLevelArray[arrayIndex] = -1;
+         //ue.sendMsg(lowStressChar); //Device control 2 character - sends low stress
         break;
       case 2:
-         ue.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
+        sressLevelArray[arrayIndex] = 0;
+         //ue.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
         break;
       default: 
-         ue.sendMsg(somethingWrong); //negative acknowledge character
+         ue.sendMsg(somethingWrong); 
         break; // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
     }
+    arrayIndex ++; // increments the array
     aver = 0; //resets variables for next few cycles
     heartRate = 0;
+  }
+
+  if (arrayIndex == 10){
+    int stressTotal = 0;
+    for (int i=0; i <10; i ++){
+      stressTotal += stressLevelArray[i];
+    }
+    
+    if (stressTotal >= 7){
+      ue.sendMsg(highStressChar); 
+    } else if (srtessTotal <= 2){
+      ue.sendMsg(lowStressChar);
+    } else{
+      ue.sendMsg(regularStressChar)
+    }
+
+    arrayIndex = 0;
   }
 }
 
