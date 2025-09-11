@@ -122,15 +122,15 @@ void loop() {
 
     switch(control){
       case 0:
-        sressLevelArray[arrayIndex] = 1;
+        stressLevelArray[arrayIndex] = 1;
          //ue.sendMsg(highStressChar); //Device control 1 character - sends high stress
         break;
       case 1:
-        sressLevelArray[arrayIndex] = -1;
+        stressLevelArray[arrayIndex] = -1;
          //ue.sendMsg(lowStressChar); //Device control 2 character - sends low stress
         break;
       case 2:
-        sressLevelArray[arrayIndex] = 0;
+        stressLevelArray[arrayIndex] = 0;
          //ue.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
         break;
       default: 
@@ -150,10 +150,10 @@ void loop() {
     
     if (stressTotal >= 7){
       ue.sendMsg(highStressChar); 
-    } else if (srtessTotal <= 2){
+    } else if (stressTotal <= 2){
       ue.sendMsg(lowStressChar);
     } else{
-      ue.sendMsg(regularStressChar)
+      ue.sendMsg(regularStressChar);
     }
 
     arrayIndex = 0;

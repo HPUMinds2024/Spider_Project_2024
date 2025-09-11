@@ -66,7 +66,7 @@ long Gsr_Stress::takeBaseline(){
 //if 90 consecutive readings are the same, it decides there's an issue and sends that through serial
 long Gsr_Stress::takeGsrReading(){
   int hold_num = 0;
-  //byte tally = 0;
+  byte tally = 0;
   long sum=0;
 
   for(int i=0;i<100;i++) {          //Average the 100 measurements to remove the glitch
