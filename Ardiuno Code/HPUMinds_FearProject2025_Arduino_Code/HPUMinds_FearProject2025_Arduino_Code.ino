@@ -1,16 +1,21 @@
 /*----------------------------------------------------------------------
 | File Name: HPUMinds_FearProject2025_Arduino_Code.ino
 | Programmer: HPU MInds, Jacob Larson Brittain
-| Date: 01/22/2025
+| First Created: 01/22/2025
+| Most Recent Update: 10/15/2025
 | Description:Testing and implementation program to have the hardware 
 | talk to HPU Minds Fear project
-| extra files: Gsr_Stress.h
+| extra files: Gsr_Stress.h UESerial.h
 ----------------------------------------------------------------------*/
 
-#include <UESerial.h>
+#include <UESerial.h> 
 #include <Gsr_Stress.h>
+// ** INSERT HEART RATE SENSOR LIBRARY HERE **
 
-#define Yellow 0 //defines the pin for the yellow wire to be hooked up to
+// includes the essential libraries for the hardware and Serial communication
+
+
+#define Yellow 0 // defines the pin for the yellow wire to be hooked up to, in this case A0
 
 const int degreeOfFlux = 50; 
 // variable to define how far off of the set steady value is still concidered steady, to be defined in later versions
@@ -27,26 +32,23 @@ long heartRate = 0;
 const char highStressChar = '+';
 const char lowStressChar = '-';
 const char regularStressChar = 'r';
-//const char deviceControlChar4 = 20;
 const char somethingWrong = 'p';
-
-const char end = 0;
 
 int stressLevelArray[10];
 int arrayIndex = 0;
 
 Gsr_Stress gsr;
-UESerial ue;
+UESerial ue; // creates objects for use later in the code
 
 void setup() {
-  ue.begin(); // begins serial communication in the com port its connected to
-
   int buttonPin = 10;
   pinMode(buttonPin, INPUT_PULLUP); //gives button to press to say that everything is hooked up correctly - gives time to put on gsr before you start
   bool pushed = HIGH; // halts the code until a button connected to pin 10 is pressed in order to allow the heartrate monitor and GSR to be set up
   while(pushed != LOW){
     pushed = digitalRead(buttonPin);
   } 
+
+  ue.begin(); // begins serial communication in the com port its connected to
 
   gsr.begin(Yellow); // sets up the gsr sensor to be on the analog pin specified by the number Yellow
   // since Yellow = 0, it is setting up the gsr sensor on pin A0. 
@@ -56,8 +58,7 @@ void setup() {
   */
 
   /*
-    IMPORTANT
-
+    **IMPORTANT!**
     In order for the code to do anything, there needs to be code on the program that this is talking to to both
     wait for '?', and then respond with 'y', and then wait for 'y' to be sent back, in  order to verify
     a connection has been established BEFORE it trys to read in any input or data from the Serial port or
@@ -67,10 +68,11 @@ void setup() {
   steadyValue = gsr.takeBaseline();
   if (steadyValue == -1){
     ue.sendMsg(somethingWrong);
-  }
+  } // takes and sets the baseline for the readings later
   
   highValue = steadyValue + degreeOfFlux; 
-  lowValue = steadyValue - 1.5 * degreeOfFlux;  
+  lowValue = steadyValue - 1.5 * degreeOfFlux;
+  // sets the values of the global variables for comparison 
 }
 
 int iteration = 0; // global variables required for calculation and sending serial info
@@ -81,13 +83,16 @@ void loop() {
   if(Serial.available() != 0) {
     if(ue.readChar() == 'B') {
       steadyValue = gsr.takeBaseline();
+      highValue = steadyValue + degreeOfFlux; 
+      lowValue = steadyValue - 1.5 * degreeOfFlux;
     }
-  }
+  } // resets the baseline and comparison values if sent the char 'B' through the Serial connection
   
   long reading =  gsr.takeGsrReading(); //take the gsr reading
   if (reading == -1){
     ue.sendMsg(somethingWrong);
   }
+  
   //this block averages every 10 readings and sends the report of either elevated, dropped, or steady readings.
   //sends through the serial port using 3 of the 4 device control ASCII characters as well as Negative Acknowledge (in case of issue/unexpected behavior)
   iteration ++; 
@@ -97,45 +102,17 @@ void loop() {
     aver = aver/10;
     //heartRate = heartRate/10;
 
-    /*
-      IMPORTANT
-
-      The program MUST be waiting to recieve the characters in order to modify behavior/output in
-      some way or else this will not do anything. It will output the characters, but the recieving program will
-      not do anything in response because it is not waiting to recieve the commands sent to it.
-    
-    */ 
-    //ue.sendMsg(aver);
-    int control = -1;
       //(heartRate >= elevated)
     if ((aver <= lowValue)){
-      control = 0; // looks for indication of High Stress 
+      stressLevelArray[arrayIndex] = 1;// looks for indication of High Stress 
 
     }else if (aver >= highValue){
-      control = 1; // looks for exceptionally low stress 
+      stressLevelArray[arrayIndex] = -1; // looks for exceptionally low stress 
 
-    } else if ((aver > lowValue)){
-      control = 2; // looks for regular amount of stress
+    } else if (aver > lowValue){
+      stressLevelArray[arrayIndex] = 0; // looks for regular amount of stress
     } else {
-      control = -1;
-    }
-
-    switch(control){
-      case 0:
-        stressLevelArray[arrayIndex] = 1;
-         //ue.sendMsg(highStressChar); //Device control 1 character - sends high stress
-        break;
-      case 1:
-        stressLevelArray[arrayIndex] = -1;
-         //ue.sendMsg(lowStressChar); //Device control 2 character - sends low stress
-        break;
-      case 2:
-        stressLevelArray[arrayIndex] = 0;
-         //ue.sendMsg(regularStressChar); //Device control 3 character - sends normal stress
-        break;
-      default: 
-         ue.sendMsg(somethingWrong); 
-        break; // used to show that something is very wrong with the person hooked up to the sensors, or there is some connection error with hardware
+      ue.sendMsg(somethingWrong);
     }
     arrayIndex ++; // increments the array
     aver = 0; //resets variables for next few cycles
