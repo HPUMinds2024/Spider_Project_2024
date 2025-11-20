@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\Spider.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\Spider.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\SpiderEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{BB38096A-B391-30DC-A0D4-4F3EA6B44507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SerialCOM_5_UE532">
+      <UniqueIdentifier>{EB624931-6386-385C-9FF4-4916B927A859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM">
+      <UniqueIdentifier>{813C6156-45E1-3B64-AF2F-606942484A75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM\Source">
+      <UniqueIdentifier>{02532489-0495-320B-8BD5-E163ED9FDB94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM">
+      <UniqueIdentifier>{D874AA32-6454-384C-818C-E633C2CC8203}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\SERIALCOM.Build.cs">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM</Filter>
+    </None>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Private">
+      <UniqueIdentifier>{CAEBD0DE-4848-30D7-BA8E-8AF217381CF5}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Private\SerialCom.cpp">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Private\SERIALCOMModule.cpp">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Private</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Public">
+      <UniqueIdentifier>{29D906E8-1F45-30D6-B0C2-7B305B13F69E}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Public\SerialCom.h">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Public\SERIALCOMModule.h">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Source\SERIALCOM\Public</Filter>
+    </ClInclude>
+    <None Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\SERIALCOM.uplugin">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM</Filter>
+    </None>
+    <Filter Include="Plugins\SerialCOM_5_UE532\SerialCOM\Resources">
+      <UniqueIdentifier>{3FB68C1B-5791-377B-B6E8-FE8E35D7AB5B}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\SerialCOM_5_UE532\SerialCOM\Resources\Icon128.png">
+      <Filter>Plugins\SerialCOM_5_UE532\SerialCOM\Resources</Filter>
+    </None>
+    <Filter Include="Source\Spider">
+      <UniqueIdentifier>{64A43C7F-DC1A-3EEF-A171-95E61D60FAD6}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\Spider\CPP_SpiderWalk.cpp">
+      <Filter>Source\Spider</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Spider\CPP_SpiderWalk.h">
+      <Filter>Source\Spider</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\Spider\Spider.Build.cs">
+      <Filter>Source\Spider</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\Spider\Spider.cpp">
+      <Filter>Source\Spider</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Spider\Spider.h">
+      <Filter>Source\Spider</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

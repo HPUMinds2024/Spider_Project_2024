@@ -1,4 +1,4 @@
-#include "D:/PROJECTS_WORK/SerialCom_53/Intermediate/Build/Win64/x64/SerialCom_53Editor/Development/Engine/SharedDefinitions.Engine.Cpp20.InclOrderUnreal5_0.h"
+#include "C:/Users/HPU Minds/Desktop/Spider_Project_2024/Spider_Project_2024_real/Spider_Project_2024/Intermediate/Build/Win64/x64/SpiderEditor/Development/Engine/SharedDefinitions.Engine.Cpp20.InclOrderUnreal5_0.h"
 #undef UE_IS_ENGINE_MODULE
 #undef DEPRECATED_FORGAME
 #define DEPRECATED_FORGAME DEPRECATED
@@ -13,8 +13,8 @@
 #define UE_ENABLE_INCLUDE_ORDER_DEPRECATED_IN_5_1 1
 #define UE_ENABLE_INCLUDE_ORDER_DEPRECATED_IN_5_2 1
 #define UE_ENABLE_INCLUDE_ORDER_DEPRECATED_IN_5_3 1
-#define UE_PROJECT_NAME SerialCom_53
-#define UE_TARGET_NAME SerialCom_53Editor
+#define UE_PROJECT_NAME Spider
+#define UE_TARGET_NAME SpiderEditor
 #define UE_MODULE_NAME "SERIALCOM"
 #define UE_PLUGIN_NAME "SERIALCOM"
 #define IMPLEMENT_ENCRYPTION_KEY_REGISTRATION() 

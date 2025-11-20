@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Spider",
+			"Path": "..\\Source\\Spider.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "SpiderEditor",
+			"Path": "..\\Source\\SpiderEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

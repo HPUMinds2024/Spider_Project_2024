@@ -1,0 +1,9 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\HPU Minds\\Desktop\\Spider_Project_2024\\Spider_Project_2024_real\\Spider_Project_2024\\Source\\Spider\\Spider.Build.cs",
+		"C:\\Users\\HPU Minds\\Desktop\\Spider_Project_2024\\Spider_Project_2024_real\\Spider_Project_2024\\Plugins\\SerialCOM_5_UE532\\SerialCOM\\Source\\SERIALCOM\\SERIALCOM.Build.cs",
+		"C:\\Users\\HPU Minds\\Desktop\\Spider_Project_2024\\Spider_Project_2024_real\\Spider_Project_2024\\Source\\Spider.Target.cs",
+		"C:\\Users\\HPU Minds\\Desktop\\Spider_Project_2024\\Spider_Project_2024_real\\Spider_Project_2024\\Source\\SpiderEditor.Target.cs"
+	],
+	"EngineVersion": "5.3.2"
+}
