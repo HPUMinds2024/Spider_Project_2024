@@ -1,15 +1,49 @@
 /*----------------------------------------------------------------------
-| File Name: HPUMinds_FearProject2025_Arduino_Code.ino
-| Programmer: HPU MInds, Jacob Larson Brittain
-| First Created: 01/22/2025
-| Most Recent Update: 10/15/2025
-| Description:Testing and implementation program to have the hardware 
-| talk to HPU Minds Fear project
-| extra files: Gsr_Stress.h UESerial.h
+| File Name: HPUMinds_FearProject2025_Arduino_Code.ino                 |
+| Programmer: HPU MInds, Jacob Larson Brittain                         |
+| First Created: 01/22/2025                                            |
+| Most Recent Update: 2/4/2026                                         |
+| Description:Testing and implementation program to have the hardware  |
+| talk to HPU Minds Fear project                                       |
+| extra files: Gsr_Stress.h UESerial.h                                 |
 ----------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------
+|############################# USER GUIDE #############################|
+|                                                                      |
+|######################## IMPORTANT VARIABLES #########################|
+|                                                                      |
+| degreeOfFlux: Value 50, used to Determine ranges for stress levels   |
+|                                                                      |
+|                                                                      |
+----------------------------------------------------------------------*/
+
 
 #include <UESerial.h> 
 #include <Gsr_Stress.h>
+
+/*
++---------+
+| SENSORS |
++---------+
+     |
+     | raw
+     | data
+     V                        
++-------------+  sendmsg()  +------------+  Serial Connection  +----------+
+|   ARDUINO   |------------>|  UESerial  |-------------------->|  UE 5.3  |
++-------------+  function   |  Library   |   On COM PORT #3    +----------+
+     |      ^               +------------+                     
+raw  |      |
+data |      | interpreted 
+     V      | data
++--------------+
+|  GSR_STRESS  |
+|   Library    |
++--------------+
+*/
+
+
 // ** INSERT HEART RATE SENSOR LIBRARY HERE **
 
 // includes the essential libraries for the hardware and Serial communication
