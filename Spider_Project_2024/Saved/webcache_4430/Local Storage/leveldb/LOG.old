@@ -1,0 +1,12 @@
+2026/02/11-17:35:20.459 22c8 Reusing MANIFEST C:/Users/jharnar/Documents/GitHub/Spider_Project_2024/Spider_Project_2024/Saved/webcache_4430\Local Storage\leveldb/MANIFEST-000001
+2026/02/11-17:35:20.460 22c8 Recovering log #3
+2026/02/11-17:35:20.460 22c8 Reusing old log C:/Users/jharnar/Documents/GitHub/Spider_Project_2024/Spider_Project_2024/Saved/webcache_4430\Local Storage\leveldb/000003.log 
+2026/02/11-17:55:42.294 3c78 Level-0 table #5: started
+2026/02/11-17:55:42.300 3c78 Level-0 table #5: 66773 bytes OK
+2026/02/11-17:55:42.306 3c78 Delete type=0 #3
+2026/02/11-17:56:50.255 22c8 Level-0 table #7: started
+2026/02/11-17:56:50.260 22c8 Level-0 table #7: 65550 bytes OK
+2026/02/11-17:56:50.266 22c8 Delete type=0 #4
+2026/02/11-17:58:31.441 3434 Level-0 table #9: started
+2026/02/11-17:58:31.446 3434 Level-0 table #9: 64930 bytes OK
+2026/02/11-17:58:31.453 3434 Delete type=0 #6

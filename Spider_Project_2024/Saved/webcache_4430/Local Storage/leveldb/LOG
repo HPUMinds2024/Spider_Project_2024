@@ -1,2 +1,72 @@
-2024/01/22-14:20:33.953 3780 Creating DB C:/Users/Classroom User/Documents/GitHub/spider/Spider/Saved/webcache_4430\Local Storage\leveldb since it was missing.
-2024/01/22-14:20:33.972 3780 Reusing MANIFEST C:/Users/Classroom User/Documents/GitHub/spider/Spider/Saved/webcache_4430\Local Storage\leveldb/MANIFEST-000001
+2026/02/17-16:13:24.243 1cbc Reusing MANIFEST C:/Users/jharnar/Documents/GitHub/Spider_Project_2024/Spider_Project_2024/Saved/webcache_4430\Local Storage\leveldb/MANIFEST-000001
+2026/02/17-16:13:24.256 1cbc Recovering log #8
+2026/02/17-16:13:24.256 1cbc Reusing old log C:/Users/jharnar/Documents/GitHub/Spider_Project_2024/Spider_Project_2024/Saved/webcache_4430\Local Storage\leveldb/000008.log 
+2026/02/17-16:15:37.292 3748 Level-0 table #12: started
+2026/02/17-16:15:37.298 3748 Level-0 table #12: 79125 bytes OK
+2026/02/17-16:15:37.305 3748 Delete type=0 #8
+2026/02/17-16:19:25.917 383c Level-0 table #14: started
+2026/02/17-16:19:25.923 383c Level-0 table #14: 82544 bytes OK
+2026/02/17-16:19:25.929 383c Delete type=0 #11
+2026/02/17-16:22:25.917 904 Level-0 table #16: started
+2026/02/17-16:22:25.922 904 Level-0 table #16: 79983 bytes OK
+2026/02/17-16:22:25.929 904 Delete type=0 #13
+2026/02/17-16:22:25.930 904 Compacting 4@0 + 1@1 files
+2026/02/17-16:22:25.935 904 Generated table #17@0: 4 keys, 27928 bytes
+2026/02/17-16:22:25.935 904 Compacted 4@0 + 1@1 files => 27928 bytes
+2026/02/17-16:22:25.938 904 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/17-16:22:25.939 904 Delete type=2 #7
+2026/02/17-16:22:25.939 904 Delete type=2 #9
+2026/02/17-16:22:25.939 904 Delete type=2 #12
+2026/02/17-16:22:25.939 904 Delete type=2 #14
+2026/02/17-16:22:25.939 904 Delete type=2 #16
+2026/02/17-16:28:10.069 52c4 Level-0 table #19: started
+2026/02/17-16:28:10.074 52c4 Level-0 table #19: 85459 bytes OK
+2026/02/17-16:28:10.078 52c4 Delete type=0 #15
+2026/02/17-16:28:36.503 904 Level-0 table #21: started
+2026/02/17-16:28:36.508 904 Level-0 table #21: 62627 bytes OK
+2026/02/17-16:28:36.512 904 Delete type=0 #18
+2026/02/17-16:29:25.908 52c4 Level-0 table #23: started
+2026/02/17-16:29:25.914 52c4 Level-0 table #23: 64963 bytes OK
+2026/02/17-16:29:25.917 52c4 Delete type=0 #20
+2026/02/17-16:31:25.919 53c Level-0 table #25: started
+2026/02/17-16:31:25.925 53c Level-0 table #25: 68419 bytes OK
+2026/02/17-16:31:25.929 53c Delete type=0 #22
+2026/02/17-16:31:25.929 53c Compacting 4@0 + 1@1 files
+2026/02/17-16:31:25.934 53c Generated table #26@0: 4 keys, 34500 bytes
+2026/02/17-16:31:25.934 53c Compacted 4@0 + 1@1 files => 34500 bytes
+2026/02/17-16:31:25.937 53c compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/17-16:31:25.937 53c Delete type=2 #17
+2026/02/17-16:31:25.937 53c Delete type=2 #19
+2026/02/17-16:31:25.937 53c Delete type=2 #21
+2026/02/17-16:31:25.937 53c Delete type=2 #23
+2026/02/17-16:31:25.937 53c Delete type=2 #25
+2026/02/17-16:33:25.914 3128 Level-0 table #28: started
+2026/02/17-16:33:25.919 3128 Level-0 table #28: 74443 bytes OK
+2026/02/17-16:33:25.923 3128 Delete type=0 #24
+2026/02/17-16:35:25.910 4c64 Level-0 table #30: started
+2026/02/17-16:35:25.916 4c64 Level-0 table #30: 75651 bytes OK
+2026/02/17-16:35:25.919 4c64 Delete type=0 #27
+2026/02/17-16:37:53.828 5650 Level-0 table #32: started
+2026/02/17-16:37:53.834 5650 Level-0 table #32: 75939 bytes OK
+2026/02/17-16:37:53.838 5650 Delete type=0 #29
+2026/02/17-16:57:18.705 11dc Level-0 table #34: started
+2026/02/17-16:57:18.712 11dc Level-0 table #34: 75947 bytes OK
+2026/02/17-16:57:18.716 11dc Delete type=0 #31
+2026/02/17-16:57:18.716 11dc Compacting 4@0 + 1@1 files
+2026/02/17-16:57:18.721 11dc Generated table #35@0: 4 keys, 38204 bytes
+2026/02/17-16:57:18.721 11dc Compacted 4@0 + 1@1 files => 38204 bytes
+2026/02/17-16:57:18.726 11dc compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/17-16:57:18.727 11dc Delete type=2 #26
+2026/02/17-16:57:18.727 11dc Delete type=2 #28
+2026/02/17-16:57:18.727 11dc Delete type=2 #30
+2026/02/17-16:57:18.727 11dc Delete type=2 #32
+2026/02/17-16:57:18.727 11dc Delete type=2 #34
+2026/02/17-16:58:00.074 5650 Level-0 table #37: started
+2026/02/17-16:58:00.080 5650 Level-0 table #37: 75503 bytes OK
+2026/02/17-16:58:00.084 5650 Delete type=0 #33
+2026/02/17-17:07:12.328 54fc Level-0 table #39: started
+2026/02/17-17:07:12.333 54fc Level-0 table #39: 75259 bytes OK
+2026/02/17-17:07:12.336 54fc Delete type=0 #36
+2026/02/17-17:07:29.902 5650 Level-0 table #41: started
+2026/02/17-17:07:29.908 5650 Level-0 table #41: 75139 bytes OK
+2026/02/17-17:07:29.912 5650 Delete type=0 #38
