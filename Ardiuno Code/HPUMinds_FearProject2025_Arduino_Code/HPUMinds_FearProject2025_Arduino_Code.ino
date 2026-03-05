@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------
 | File Name: HPUMinds_FearProject2025_Arduino_Code.ino                 |
-| Programmer: HPU MInds, Jacob Larson Brittain                         |
+| Programmer: HPU Minds, Jacob Larson Brittain                         |
 | First Created: 01/22/2025                                            |
 | Most Recent Update: 2/4/2026                                         |
 | Description:Testing and implementation program to have the hardware  |
@@ -59,7 +59,7 @@ long lowValue = 0;
 long steadyValue = 0;
 long heartRate = 0;
 //const long elevated = 100; // I googled this and the web told me 100 is elevated heartrate
-//temporary values to be changed in later versions, currently included so that the structure of how the program
+//temporary values to be changed in later versions, currently included so that the structure of how the program 
 //will be implemented can be established and the only changes will be the values of these variables
 
 //variables to define the characters that are going to be sent for controlling behavior
